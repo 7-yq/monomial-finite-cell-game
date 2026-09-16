@@ -1,0 +1,476 @@
+:root {
+  color-scheme: dark;
+  --bg: #101411;
+  --surface: #171d19;
+  --surface-2: #202820;
+  --line: #344039;
+  --text: #eef5ed;
+  --muted: #a9b8ad;
+  --generator: #58c7ad;
+  --polygon: #9fa8ff;
+  --product: #f2c64b;
+  --accent: #6ab7ff;
+  --danger: #f05c67;
+  font-family: "Latin Modern Roman", "CMU Serif", "STIX Two Text", "Times New Roman", Times, serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  overflow: hidden;
+}
+
+button {
+  min-height: 32px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface-2);
+  color: var(--text);
+  padding: 0 10px;
+  font: inherit;
+  cursor: pointer;
+}
+
+button:hover {
+  border-color: var(--generator);
+}
+
+select {
+  min-height: 32px;
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface-2);
+  color: var(--text);
+  padding: 0 8px;
+  font: inherit;
+}
+
+input[type="number"] {
+  min-height: 32px;
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface-2);
+  color: var(--text);
+  padding: 0 8px;
+  font: inherit;
+}
+
+.icon-button {
+  width: 32px;
+  padding: 0;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.game-link {
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface-2);
+  color: var(--text);
+  padding: 0 10px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.game-link:hover {
+  border-color: var(--generator);
+}
+
+.graph-topbar {
+  height: 66px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(16, 20, 17, 0.96);
+}
+
+.graph-topbar h1 {
+  margin: 0;
+  font-size: 22px;
+  line-height: 1.1;
+  letter-spacing: 0;
+}
+
+.graph-meta {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.graph-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.legend-icon {
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  border: 2px solid currentColor;
+}
+
+.legend-icon.polygon {
+  color: var(--polygon);
+  transform: rotate(45deg);
+}
+
+.legend-icon.product {
+  width: 18px;
+  height: 0;
+  color: var(--product);
+  border-width: 2px 0 0;
+}
+
+.legend-icon.generator {
+  color: var(--generator);
+  border-radius: 50%;
+}
+
+.graph-shell {
+  height: calc(100vh - 66px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+}
+
+#configurationGraph {
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: radial-gradient(circle at 18% 12%, rgba(106, 183, 255, 0.08), transparent 30%),
+    var(--bg);
+  touch-action: none;
+}
+
+.pan-surface {
+  fill: transparent;
+}
+
+.configuration-polygon {
+  fill: rgba(159, 168, 255, 0.08);
+  stroke: rgba(159, 168, 255, 0.46);
+  stroke-width: 1.5;
+  stroke-dasharray: 9 7;
+  cursor: pointer;
+}
+
+.configuration-polygon:hover {
+  fill: rgba(159, 168, 255, 0.13);
+  stroke: var(--polygon);
+}
+
+.configuration-edge {
+  fill: none;
+  stroke: var(--product);
+  stroke-width: 2.1;
+  stroke-linecap: round;
+  marker-end: url(#configurationArrowMarker);
+  cursor: pointer;
+}
+
+.configuration-edge:hover,
+.configuration-edge.selected {
+  stroke: var(--accent);
+  stroke-width: 2.8;
+}
+
+#configurationArrowMarker path {
+  fill: var(--product);
+}
+
+.configuration-node {
+  cursor: grab;
+}
+
+.configuration-node.dragging {
+  cursor: grabbing;
+}
+
+.configuration-node circle {
+  fill: var(--surface);
+  stroke: var(--generator);
+  stroke-width: 2.3;
+}
+
+.configuration-node.massey circle {
+  stroke: var(--polygon);
+}
+
+.configuration-node.window circle {
+  stroke: var(--accent);
+  stroke-dasharray: 5 4;
+}
+
+.configuration-node:hover circle,
+.configuration-node.selected circle {
+  fill: rgba(88, 199, 173, 0.18);
+  stroke-width: 3;
+}
+
+.configuration-node-label {
+  fill: var(--text);
+  font-size: 17px;
+  font-weight: 700;
+  dominant-baseline: central;
+  text-anchor: middle;
+  paint-order: stroke;
+  stroke: var(--bg);
+  stroke-width: 5px;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+.configuration-node-label-host {
+  overflow: visible;
+  pointer-events: none;
+}
+
+.configuration-node-label-box {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  text-shadow:
+    0 0 3px var(--bg),
+    0 0 5px var(--bg),
+    0 0 7px var(--bg);
+  pointer-events: none;
+}
+
+.configuration-node-label-box .formula-text {
+  max-width: 164px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.empty-label {
+  fill: var(--muted);
+  font-size: 18px;
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+
+.detail-panel {
+  border-left: 1px solid var(--line);
+  background: var(--surface);
+  padding: 14px;
+  overflow: auto;
+}
+
+.level-controls {
+  margin-bottom: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.level-controls label,
+.cycle-controls label {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.level-row {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr) 32px;
+  gap: 8px;
+  align-items: center;
+}
+
+.cycle-controls {
+  margin-bottom: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.mode-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.toggle-control {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 7px;
+  margin: 0 !important;
+  cursor: pointer;
+}
+
+.toggle-control input {
+  accent-color: var(--generator);
+}
+
+.cycle-row {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr) auto 32px;
+  gap: 8px;
+  align-items: center;
+}
+
+.cycle-range {
+  color: var(--muted);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.cycle-number {
+  display: inline-block;
+  min-width: 2.4em;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.cycle-controls.disabled {
+  opacity: 0.7;
+}
+
+.detail-panel h2 {
+  margin: 0 0 12px;
+  font-size: 17px;
+  letter-spacing: 0;
+}
+
+.detail-body {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.detail-body strong {
+  color: var(--text);
+}
+
+.detail-body code {
+  color: var(--text);
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 12px;
+  white-space: normal;
+}
+
+.detail-body .formula-text {
+  color: var(--text);
+}
+
+.formula-text {
+  display: inline-block;
+  max-width: none;
+  overflow-wrap: normal;
+  white-space: nowrap;
+  word-break: normal;
+}
+
+.tex-math {
+  font-family: "Latin Modern Math", "STIX Two Math", "Cambria Math", "Times New Roman", serif;
+}
+
+.tex-math mjx-container {
+  color: inherit;
+  margin: 0;
+  max-width: none;
+  overflow: visible;
+}
+
+.tex-math mjx-container[jax="CHTML"] {
+  line-height: 1;
+}
+
+.formula-group,
+.formula-ident,
+.formula-number,
+.formula-fn,
+.formula-op,
+.formula-punct {
+  white-space: nowrap;
+}
+
+.formula-fn sub {
+  font-size: 0.68em;
+  line-height: 0;
+}
+
+.formula-op {
+  padding: 0 0.08em;
+}
+
+.detail-line {
+  margin: 7px 0;
+}
+
+.detail-list {
+  margin: 8px 0 0;
+  padding-left: 18px;
+}
+
+.detail-list li + li {
+  margin-top: 8px;
+}
+
+@media (max-width: 820px) {
+  body {
+    overflow: auto;
+  }
+
+  .graph-topbar {
+    height: auto;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .graph-actions {
+    flex-wrap: wrap;
+  }
+
+  .graph-shell {
+    height: calc(100vh - 128px);
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(0, 1fr) 190px;
+  }
+
+  .detail-panel {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+}

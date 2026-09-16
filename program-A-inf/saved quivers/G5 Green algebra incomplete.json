@@ -1,0 +1,325 @@
+{
+  "schema": "ainf-game-save",
+  "version": 1,
+  "savedAt": "2026-07-09T18:27:13.792389+00:00",
+  "actions": [
+    {
+      "kind": "add_vertex",
+      "name": "1"
+    },
+    {
+      "kind": "add_vertex",
+      "name": "2"
+    },
+    {
+      "kind": "add_arrow",
+      "name": "x1",
+      "source": "1",
+      "target": "2",
+      "grading": null
+    },
+    {
+      "kind": "add_arrow",
+      "name": "x2",
+      "source": "2",
+      "target": "1",
+      "grading": null
+    },
+    {
+      "kind": "add_arrow",
+      "name": "x3",
+      "source": "1",
+      "target": "2",
+      "grading": null
+    },
+    {
+      "kind": "add_arrow",
+      "name": "x4",
+      "source": "2",
+      "target": "1",
+      "grading": null
+    },
+    {
+      "kind": "add_arrow",
+      "name": "x5",
+      "source": "1",
+      "target": "2",
+      "grading": null
+    },
+    {
+      "kind": "attach_mp_cell",
+      "expression": {
+        "type": "product",
+        "coefficient": "1",
+        "factors": [
+          {
+            "type": "arrow",
+            "name": "x1"
+          },
+          {
+            "type": "arrow",
+            "name": "x2"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "attach_mp_cell",
+      "expression": {
+        "type": "product",
+        "coefficient": "1",
+        "factors": [
+          {
+            "type": "arrow",
+            "name": "x2"
+          },
+          {
+            "type": "arrow",
+            "name": "x3"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "attach_mp_cell",
+      "expression": {
+        "type": "product",
+        "coefficient": "1",
+        "factors": [
+          {
+            "type": "arrow",
+            "name": "x3"
+          },
+          {
+            "type": "arrow",
+            "name": "x4"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "attach_mp_cell",
+      "expression": {
+        "type": "product",
+        "coefficient": "1",
+        "factors": [
+          {
+            "type": "arrow",
+            "name": "x4"
+          },
+          {
+            "type": "arrow",
+            "name": "x5"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "attach_mp_cell",
+      "expression": {
+        "type": "product",
+        "coefficient": "1",
+        "factors": [
+          {
+            "type": "arrow",
+            "name": "x1"
+          },
+          {
+            "type": "arrow",
+            "name": "x4"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "attach_mp_cell",
+      "expression": {
+        "type": "product",
+        "coefficient": "1",
+        "factors": [
+          {
+            "type": "arrow",
+            "name": "x2"
+          },
+          {
+            "type": "arrow",
+            "name": "x5"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "attach_mp_cell",
+      "expression": {
+        "type": "massey",
+        "inputs": [
+          {
+            "type": "arrow",
+            "name": "x1"
+          },
+          {
+            "type": "arrow",
+            "name": "x2"
+          },
+          {
+            "type": "arrow",
+            "name": "x3"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "attach_mp_cell",
+      "expression": {
+        "type": "massey",
+        "inputs": [
+          {
+            "type": "arrow",
+            "name": "x1"
+          },
+          {
+            "type": "arrow",
+            "name": "x2"
+          },
+          {
+            "type": "arrow",
+            "name": "x5"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "attach_mp_cell",
+      "expression": {
+        "type": "massey",
+        "inputs": [
+          {
+            "type": "arrow",
+            "name": "x3"
+          },
+          {
+            "type": "arrow",
+            "name": "x4"
+          },
+          {
+            "type": "arrow",
+            "name": "x5"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "attach_mp_cell",
+      "expression": {
+        "type": "massey",
+        "inputs": [
+          {
+            "type": "arrow",
+            "name": "x2"
+          },
+          {
+            "type": "arrow",
+            "name": "x3"
+          },
+          {
+            "type": "arrow",
+            "name": "x4"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "attach_mp_cell",
+      "expression": {
+        "type": "massey",
+        "inputs": [
+          {
+            "type": "arrow",
+            "name": "x1"
+          },
+          {
+            "type": "arrow",
+            "name": "x4"
+          },
+          {
+            "type": "arrow",
+            "name": "x5"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "attach_mp_cell",
+      "expression": {
+        "type": "massey",
+        "inputs": [
+          {
+            "type": "arrow",
+            "name": "x2"
+          },
+          {
+            "type": "arrow",
+            "name": "x3"
+          },
+          {
+            "type": "arrow",
+            "name": "x4"
+          },
+          {
+            "type": "arrow",
+            "name": "x5"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "attach_mp_cell",
+      "expression": {
+        "type": "massey",
+        "inputs": [
+          {
+            "type": "arrow",
+            "name": "x1"
+          },
+          {
+            "type": "arrow",
+            "name": "x2"
+          },
+          {
+            "type": "arrow",
+            "name": "x3"
+          },
+          {
+            "type": "arrow",
+            "name": "x4"
+          }
+        ]
+      }
+    }
+  ],
+  "computationSettings": {
+    "includePrimitiveDetails": false,
+    "fastMasseyGeneration": true,
+    "bridgeReplacementMaxDepth": 1,
+    "filterSelfExpandingReplacements": true,
+    "skipSusceptibleSearch": true,
+    "generateAfterResolve": true
+  },
+  "restoreRun": true,
+  "restoreGenerated": true,
+  "summary": {
+    "vertices": [
+      "1",
+      "2"
+    ],
+    "generators": [
+      "x1",
+      "x2",
+      "x3",
+      "x4",
+      "x5"
+    ],
+    "attachedCells": 13,
+    "actionCount": 20
+  }
+}

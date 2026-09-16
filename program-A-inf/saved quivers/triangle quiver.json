@@ -1,0 +1,171 @@
+{
+  "schema": "ainf-game-save",
+  "version": 1,
+  "savedAt": "2026-07-09T04:33:59.299452+00:00",
+  "actions": [
+    {
+      "kind": "add_vertex",
+      "name": "1"
+    },
+    {
+      "kind": "add_vertex",
+      "name": "2"
+    },
+    {
+      "kind": "add_vertex",
+      "name": "3"
+    },
+    {
+      "kind": "add_arrow",
+      "name": "x",
+      "source": "1",
+      "target": "2",
+      "grading": null
+    },
+    {
+      "kind": "add_arrow",
+      "name": "y",
+      "source": "2",
+      "target": "3",
+      "grading": null
+    },
+    {
+      "kind": "add_arrow",
+      "name": "z",
+      "source": "3",
+      "target": "1",
+      "grading": null
+    },
+    {
+      "kind": "attach_mp_cell",
+      "expression": {
+        "type": "product",
+        "coefficient": "1",
+        "factors": [
+          {
+            "type": "arrow",
+            "name": "x"
+          },
+          {
+            "type": "arrow",
+            "name": "y"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "attach_mp_cell",
+      "expression": {
+        "type": "product",
+        "coefficient": "1",
+        "factors": [
+          {
+            "type": "arrow",
+            "name": "y"
+          },
+          {
+            "type": "arrow",
+            "name": "z"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "attach_mp_cell",
+      "expression": {
+        "type": "product",
+        "coefficient": "1",
+        "factors": [
+          {
+            "type": "arrow",
+            "name": "z"
+          },
+          {
+            "type": "arrow",
+            "name": "x"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "attach_mp_cell",
+      "expression": {
+        "type": "massey",
+        "inputs": [
+          {
+            "type": "arrow",
+            "name": "y"
+          },
+          {
+            "type": "arrow",
+            "name": "z"
+          },
+          {
+            "type": "arrow",
+            "name": "x"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "attach_mp_cell",
+      "expression": {
+        "type": "massey",
+        "inputs": [
+          {
+            "type": "arrow",
+            "name": "z"
+          },
+          {
+            "type": "arrow",
+            "name": "x"
+          },
+          {
+            "type": "arrow",
+            "name": "y"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "attach_mp_cell",
+      "expression": {
+        "type": "massey",
+        "inputs": [
+          {
+            "type": "arrow",
+            "name": "y"
+          },
+          {
+            "type": "arrow",
+            "name": "z"
+          },
+          {
+            "type": "arrow",
+            "name": "x"
+          },
+          {
+            "type": "arrow",
+            "name": "y"
+          }
+        ]
+      }
+    }
+  ],
+  "restoreRun": true,
+  "restoreGenerated": true,
+  "summary": {
+    "vertices": [
+      "1",
+      "2",
+      "3"
+    ],
+    "generators": [
+      "x",
+      "y",
+      "z"
+    ],
+    "attachedCells": 6,
+    "actionCount": 12
+  }
+}

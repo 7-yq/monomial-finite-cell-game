@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Configuration graph</title>
+    <link rel="stylesheet" href="configuration-graph.css?v=20260713-configuration-math">
+  </head>
+  <body>
+    <header class="graph-topbar">
+      <div>
+        <h1>Configuration graph</h1>
+        <div id="graphMeta" class="graph-meta">Loading</div>
+      </div>
+      <div class="graph-actions">
+        <a class="game-link" href="/" title="Open this quiver on the game page">Game page</a>
+        <div class="legend">
+          <span><i class="legend-icon polygon"></i>Base polygon</span>
+          <span><i class="legend-icon product"></i>Resolved product</span>
+          <span><i class="legend-icon generator"></i>Generator</span>
+        </div>
+        <button id="zoomOutButton" class="icon-button" type="button" title="Zoom out" aria-label="Zoom out">-</button>
+        <button id="zoomInButton" class="icon-button" type="button" title="Zoom in" aria-label="Zoom in">+</button>
+        <button id="fitButton" type="button">Fit</button>
+        <button id="refreshButton" type="button">Refresh</button>
+      </div>
+    </header>
+
+    <main class="graph-shell">
+      <svg id="configurationGraph" role="img" aria-label="Configuration graph">
+        <defs>
+          <marker id="configurationArrowMarker" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+            <path d="M 0 0 L 9 4.5 L 0 9 z"></path>
+          </marker>
+        </defs>
+        <rect id="graphPanSurface" class="pan-surface"></rect>
+        <g id="graphViewport">
+          <g id="polygonLayer"></g>
+          <g id="edgeLayer"></g>
+          <g id="nodeLayer"></g>
+        </g>
+      </svg>
+      <aside id="detailPanel" class="detail-panel">
+        <div class="level-controls">
+          <label for="levelSelect">Level</label>
+          <div class="level-row">
+            <button id="levelDownButton" class="icon-button" type="button" title="Previous level" aria-label="Previous level">-</button>
+            <select id="levelSelect"></select>
+            <button id="levelUpButton" class="icon-button" type="button" title="Next level" aria-label="Next level">+</button>
+          </div>
+        </div>
+        <div class="cycle-controls">
+          <div class="mode-row">
+            <span>View</span>
+            <label class="toggle-control">
+              <input id="allArrowsToggle" type="checkbox">
+              <span>All arrows</span>
+            </label>
+          </div>
+          <label for="cycleNumberInput">Cycle</label>
+          <div class="cycle-row">
+            <button id="cyclePrevButton" class="icon-button" type="button" title="Previous cycle" aria-label="Previous cycle">&larr;</button>
+            <input id="cycleNumberInput" type="number" min="1" value="1" inputmode="numeric">
+            <span id="cycleRangeText" class="cycle-range">/ 0</span>
+            <button id="cycleNextButton" class="icon-button" type="button" title="Next cycle" aria-label="Next cycle">&rarr;</button>
+          </div>
+        </div>
+        <h2>Selection</h2>
+        <div id="detailBody" class="detail-body">No node selected</div>
+      </aside>
+    </main>
+
+    <script>
+      window.MathJax = {
+        startup: {
+          typeset: false,
+          ready() {
+            MathJax.startup.defaultReady();
+            if (window.renderPendingConfigurationMath) {
+              window.renderPendingConfigurationMath();
+            }
+          }
+        },
+        options: {
+          enableMenu: false
+        }
+      };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <script src="configuration-graph.js?v=20260713-configuration-math" defer></script>
+  </body>
+</html>

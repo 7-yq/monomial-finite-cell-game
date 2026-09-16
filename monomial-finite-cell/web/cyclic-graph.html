@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cyclic class graph</title>
+    <link rel="stylesheet" href="primitive-graph.css">
+  </head>
+  <body
+    data-graph-endpoint="/api/cyclic-class-graph"
+    data-graph-title-prefix="Cyclic class graph"
+    data-empty-label="No cyclic classes yet"
+  >
+    <header class="graph-topbar">
+      <div>
+        <h1 id="graphTitle">Cyclic class graph</h1>
+        <div id="graphMeta" class="graph-meta">Loading</div>
+      </div>
+      <div class="graph-actions">
+        <a id="gamePageLink" class="game-link" href="/" title="Open this quiver on the game page">Game page</a>
+        <div class="legend">
+          <span><i class="legend-icon cyclic"></i>Cyclic class</span>
+          <span><i class="legend-icon presentation"></i>Member</span>
+          <span><i class="legend-icon cell"></i>Cell</span>
+          <span><i class="legend-icon bridge"></i>Bridge</span>
+          <span><i class="legend-icon warning"></i>Unresolved</span>
+          <span><i class="legend-icon over"></i>Over-resolved</span>
+        </div>
+        <button id="zoomOutButton" class="icon-button" type="button" title="Zoom out" aria-label="Zoom out">-</button>
+        <button id="zoomInButton" class="icon-button" type="button" title="Zoom in" aria-label="Zoom in">+</button>
+        <button id="fitButton" type="button">Fit</button>
+        <button id="refreshButton" type="button">Refresh</button>
+      </div>
+    </header>
+
+    <main class="graph-shell">
+      <svg id="primitiveGraph" role="img" aria-label="Cyclic class graph">
+        <defs>
+          <marker id="arrowMarker" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+            <path d="M 0 0 L 8 4 L 0 8 z"></path>
+          </marker>
+        </defs>
+        <rect id="graphPanSurface" class="pan-surface"></rect>
+        <g id="graphViewport">
+          <g id="hullLayer"></g>
+          <g id="edgeLayer"></g>
+          <g id="nodeLayer"></g>
+        </g>
+      </svg>
+      <aside id="detailPanel" class="detail-panel">
+        <h2>Selection</h2>
+        <div id="detailBody" class="detail-body">No node selected</div>
+      </aside>
+    </main>
+
+    <script src="primitive-graph.js" defer></script>
+  </body>
+</html>

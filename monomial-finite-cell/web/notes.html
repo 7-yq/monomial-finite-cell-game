@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Monomial finite-cell game notes</title>
+    <link rel="stylesheet" href="app.css">
+  </head>
+  <body class="notes-page">
+    <main class="notes-shell">
+      <header class="notes-header">
+        <div>
+          <h1>Monomial Game Conventions</h1>
+          <p>The bridge-free rules used by this finite-cell search.</p>
+        </div>
+        <a class="small-section-button note-link" href="/" title="Return to the game page">Game</a>
+      </header>
+
+      <section class="note-card" id="monomial-rule">
+        <h2>One Monomial Differential</h2>
+        <p>
+          Every attached cell has one A-infinity monomial as its differential.
+          A difference of monomials is a bridge, so bridge cells are unavailable
+          in this game. Ordinary products of generators remain available as
+          seeds; without them no first Massey products could be defined.
+        </p>
+      </section>
+
+      <section class="note-card" id="compatible-system">
+        <h2>One Compatible Massey System</h2>
+        <p>
+          Every operation of arity at least three is represented by its
+          canonical Massey product. All such products are taken in a single
+          compatible defining system, so the program stores their input data
+          and certificates rather than explicit cochain formulas.
+        </p>
+      </section>
+
+      <section class="note-card" id="preserved-rules">
+        <h2>Preserved Relations</h2>
+        <p>
+          Stasheff A-infinity replacement relations remain active. Lemma-1 is
+          also active: a completed compatible pair of Massey towers certifies
+          its admissible collapsed monomial product blocks.
+        </p>
+      </section>
+
+      <section class="note-card" id="same-completed-tower">
+        <h2>Same Completed Tower Counts Once</h2>
+        <p>
+          If two cyclic presentations are eliminated by the same completed
+          tower, the program counts them as one resolution of the cyclic class.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>

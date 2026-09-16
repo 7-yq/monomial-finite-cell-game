@@ -1,0 +1,360 @@
+.dg-shell {
+  grid-template-columns: minmax(0, 1fr) 430px;
+}
+
+.dg-title {
+  flex-basis: auto;
+}
+
+.dg-topbar {
+  align-items: flex-start;
+}
+
+.dg-shell .arrow-form {
+  grid-template-columns: minmax(86px, 1fr) minmax(58px, 0.72fr) minmax(58px, 0.72fr) minmax(58px, 0.62fr) 52px;
+}
+
+.dg-shell .arrow-differential-field {
+  grid-column: 1 / span 4;
+}
+
+.dg-shell .arrow-form > button {
+  grid-column: 5;
+  grid-row: 1 / span 2;
+  align-self: stretch;
+}
+
+.dg-builder-actions {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.module-generator-form {
+  display: grid;
+  grid-template-columns: minmax(84px, 1fr) minmax(70px, 0.75fr) minmax(58px, 0.65fr) 52px;
+  gap: 8px;
+  align-items: end;
+}
+
+.module-row-form {
+  display: grid;
+  grid-template-columns: minmax(86px, 1fr) minmax(70px, 0.75fr) 72px;
+  gap: 8px;
+  align-items: end;
+}
+
+.module-row-entries-field {
+  grid-column: 1 / span 2;
+}
+
+.module-row-form > button {
+  grid-column: 3;
+  grid-row: 1 / span 2;
+  align-self: stretch;
+}
+
+.dg-dialog {
+  max-width: min(560px, calc(100vw - 28px));
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 22px 70px rgba(24, 34, 38, 0.24);
+  padding: 0;
+}
+
+.dg-dialog::backdrop {
+  background: rgba(24, 34, 38, 0.32);
+}
+
+.dg-dialog form {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+}
+
+.dg-dialog h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.dg-dialog-body {
+  display: grid;
+  gap: 10px;
+}
+
+.dg-dialog-list {
+  display: grid;
+  gap: 6px;
+}
+
+.dg-dialog-row {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 8px;
+  align-items: start;
+  border-left: 3px solid var(--coral);
+  background: var(--coral-2);
+  border-radius: 0 7px 7px 0;
+  padding: 8px 10px;
+}
+
+.dg-dialog-row span {
+  overflow-wrap: anywhere;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 12px;
+}
+
+.dg-dialog-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.generator-button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 3px;
+  min-height: 46px;
+  padding: 6px 8px;
+  text-align: left;
+  min-width: 0;
+}
+
+.generator-button strong {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.generator-button span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.generator-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.42;
+}
+
+.projective-grid {
+  margin-bottom: 8px;
+}
+
+.chip-box:not(.empty) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+#dgGraph {
+  display: block;
+  width: 100%;
+  height: min(30vh, 270px);
+  min-height: 190px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fbfcfb;
+}
+
+.dg-edge {
+  fill: none;
+  stroke: #607d8b;
+  stroke-width: 2;
+}
+
+.dg-loop {
+  fill: none;
+  stroke: #607d8b;
+  stroke-width: 2;
+}
+
+.dg-vertex {
+  fill: #ffffff;
+  stroke: var(--teal);
+  stroke-width: 2;
+}
+
+.dg-vertex-label,
+.dg-edge-label {
+  font: 700 13px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  fill: var(--ink);
+}
+
+.dg-edge-label {
+  font-size: 12px;
+  fill: #3d5660;
+}
+
+.dg-table-wrap {
+  overflow-x: auto;
+  margin: 8px 0;
+}
+
+.dg-arrow-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.dg-arrow-table th {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+  text-align: left;
+  padding: 0 4px 4px;
+}
+
+.dg-arrow-table td {
+  padding: 3px 4px;
+  vertical-align: middle;
+}
+
+.dg-arrow-table th:nth-child(1),
+.dg-arrow-table td:nth-child(1) {
+  width: 70px;
+}
+
+.dg-arrow-table th:nth-child(2),
+.dg-arrow-table td:nth-child(2),
+.dg-arrow-table th:nth-child(3),
+.dg-arrow-table td:nth-child(3) {
+  width: 64px;
+}
+
+.dg-arrow-table th:nth-child(4),
+.dg-arrow-table td:nth-child(4) {
+  width: 46px;
+}
+
+.dg-arrow-table th:nth-child(6),
+.dg-arrow-table td:nth-child(6) {
+  width: 34px;
+}
+
+.dg-arrow-table input {
+  min-width: 0;
+  width: 100%;
+}
+
+.dg-remove {
+  width: 28px;
+  min-width: 28px;
+  padding: 0;
+}
+
+.field-label textarea {
+  width: 100%;
+  min-height: 72px;
+  resize: vertical;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text);
+  padding: 8px;
+  font: 13px/1.35 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+}
+
+.dg-list {
+  display: grid;
+  gap: 8px;
+}
+
+.dg-compact-list {
+  margin-top: 8px;
+  gap: 6px;
+}
+
+.dg-row {
+  display: grid;
+  gap: 4px;
+  border-left: 3px solid var(--teal);
+  background: #fbfcfb;
+  border-radius: 0 7px 7px 0;
+  padding: 8px 10px;
+  overflow-wrap: anywhere;
+}
+
+.dg-row.warn {
+  border-left-color: var(--amber);
+}
+
+.dg-row.error {
+  border-left-color: var(--coral);
+  background: var(--coral-2);
+}
+
+.dg-row strong {
+  color: var(--ink);
+  font-size: 13px;
+}
+
+.dg-row span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.dg-arrow-row {
+  grid-template-columns: minmax(0, 1fr) 30px;
+  align-items: center;
+}
+
+.dg-arrow-row strong,
+.dg-arrow-row span {
+  grid-column: 1;
+}
+
+.dg-arrow-row .dg-remove {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+}
+
+.dg-path-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.dg-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+  padding: 2px 7px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 12px;
+}
+
+.dg-empty {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+@media (max-width: 900px) {
+  .dg-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .dg-shell .arrow-form {
+    grid-template-columns: 1fr;
+  }
+
+  .dg-shell .arrow-differential-field,
+  .dg-shell .arrow-form > button {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .module-generator-form,
+  .module-row-form {
+    grid-template-columns: 1fr;
+  }
+
+  .module-row-entries-field,
+  .module-row-form > button {
+    grid-column: auto;
+    grid-row: auto;
+  }
+}

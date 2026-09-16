@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Monomial finite-cell game</title>
+    <link rel="stylesheet" href="app.css?v=20260915-cohomology">
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="stage-pane" aria-label="Current stage">
+        <header class="topbar">
+          <div class="topbar-title">
+            <div class="title-line">
+              <h1>Monomial finite-cell game</h1>
+              <span id="appStatus" class="app-status standby">Standby</span>
+            </div>
+          </div>
+          <div class="quiver-save-row">
+            <label class="quiver-name-control">
+              <span>Quiver name:</span>
+              <input id="quiverNameInput" autocomplete="off" placeholder="Untitled quiver" title="Current quiver name. Drop a saved monomial-game JSON file here to load it.">
+            </label>
+            <button id="saveQuiverButton" type="button" title="Save changes into the current file in saved games.">Save</button>
+            <button id="saveAsQuiverButton" type="button" title="Save a copy under a new file name in saved games.">Save As</button>
+            <button id="loadQuiverButton" type="button" title="Load a previously saved monomial game.">Load</button>
+            <button id="resetButton" title="Reset the whole game and clear the quiver." type="button">Reset</button>
+            <input id="loadQuiverInput" class="visually-hidden-file" type="file">
+          </div>
+        </header>
+
+        <div id="serverNotice" class="server-notice" hidden>
+          <strong>This page needs the local Python game server.</strong>
+          <span>From this folder, run <code>./run_game.sh</code>, then open <code>http://127.0.0.1:8600</code>. Opening this HTML file directly cannot run the Python engine.</span>
+        </div>
+
+        <section class="stage-section">
+          <div class="section-head">
+            <h2>Generators</h2>
+            <div class="section-actions">
+              <span id="generatorCount"></span>
+              <button id="openGeneratorDialogButton" class="small-section-button" type="button" title="Add a generator arrow to the quiver.">Add generator</button>
+              <button class="collapse-toggle" type="button" title="Collapse section" aria-expanded="true">-</button>
+            </div>
+          </div>
+          <p class="section-note">Click generators in order to build an ordinary seed product.</p>
+          <div id="generatorList" class="button-grid"></div>
+        </section>
+
+        <section class="stage-section">
+          <div class="section-head">
+            <h2>Generated Massey Products</h2>
+            <div class="section-actions">
+              <span id="generatedCount"></span>
+              <button id="refreshGeneratedButton" class="small-section-button refresh-action" type="button" title="Regenerate the displayed Massey products from the current compatible system.">Refresh</button>
+              <button class="collapse-toggle" type="button" title="Collapse section" aria-expanded="true">-</button>
+            </div>
+          </div>
+          <p class="section-note">Each entry is the canonical Massey product in the shared compatible system. Click it to use it as one monomial factor.</p>
+          <div id="generatedList" class="mp-list"></div>
+        </section>
+
+        <section class="stage-section">
+          <div class="section-head">
+            <h2>Resolved Products</h2>
+            <div class="section-actions">
+              <span id="resolvedProductCount"></span>
+              <button class="collapse-toggle" type="button" title="Collapse section" aria-expanded="true">-</button>
+            </div>
+          </div>
+          <p class="section-note">Products of two or more factors whose attached cells supply primitives.</p>
+          <div id="resolvedProductList" class="resolved-product-list"></div>
+        </section>
+      </section>
+
+      <aside class="operation-pane" aria-label="Operations">
+        <section class="panel-block graph-section operation-quiver">
+          <div class="panel-head">
+            <h2>Quiver</h2>
+            <div class="section-actions">
+              <span id="graphCount"></span>
+              <button id="openVertexDialogButton" class="small-section-button" type="button" title="Open the vertex editor.">Add vertices</button>
+              <button class="collapse-toggle" type="button" title="Collapse section" aria-expanded="true">-</button>
+            </div>
+          </div>
+          <svg id="quiverGraph" viewBox="0 0 420 300" role="img" aria-label="Quiver graph"></svg>
+        </section>
+
+        <section class="panel-block">
+          <div class="panel-head">
+            <h2>Monomial Differential</h2>
+            <div class="section-actions">
+              <button id="clearBuilder" title="Clear the current A-infinity monomial selection." type="button">Clear</button>
+              <button class="collapse-toggle" type="button" title="Collapse section" aria-expanded="true">-</button>
+            </div>
+          </div>
+          <p class="panel-note">Select composable generators and generated Massey products. Ordinary products seed the first Massey products; every higher factor shown by the game belongs to the same compatible system.</p>
+          <div class="monomial-box-wrap">
+            <input id="builderCoeff" class="coeff-input" autocomplete="off" value="1" aria-label="Coefficient for the selected monomial" title="Coefficient multiplying the currently selected monomial.">
+            <div id="builderChips" class="chip-box empty" tabindex="0" role="button" aria-label="Currently selected A-infinity monomial" title="Click here, then press Backspace to delete the rightmost factor.">Empty</div>
+            <button id="builderBackspace" class="builder-backspace" type="button" title="Delete the rightmost factor from the selected monomial.">&#x232B;</button>
+          </div>
+          <button id="attachMpButton" class="wide-action resolve-action" type="button" title="Attach a cell whose differential is exactly the selected monomial.">Attach monomial cell</button>
+        </section>
+
+        <section class="panel-block">
+          <div class="panel-head">
+            <h2>Search</h2>
+            <div class="section-actions">
+              <label class="toggle">
+                <input id="autoRunToggle" type="checkbox">
+                <span>Auto Run</span>
+              </label>
+              <button class="collapse-toggle" type="button" title="Collapse section" aria-expanded="true">-</button>
+            </div>
+          </div>
+          <div class="search-actions">
+            <button id="runButton" type="button" title="Check whether the current stage has won, lost, or still has obstructions.">Run</button>
+            <button id="stopButton" class="stop-action" type="button" title="Interrupt the currently running computation." disabled>Stop</button>
+            <button id="undoButton" type="button" title="Undo the most recent UI move.">Undo</button>
+          </div>
+          <div id="computationStats" class="settings-stats"></div>
+        </section>
+
+        <div class="stage-dialog-actions operation-detail-actions" aria-label="Game details">
+          <button id="openAttachmentsButton" class="summary-button" type="button">
+            <strong>Attached Cells</strong>
+            <span id="attachmentCount">0 cells</span>
+          </button>
+          <button id="openRunResultButton" class="summary-button" type="button">
+            <strong>Run Result</strong>
+            <span id="runCount">Not run</span>
+          </button>
+        </div>
+
+        <div class="stage-dialog-actions cohomology-detail-actions" aria-label="Victory invariants">
+          <button id="openCohomologyBasisButton" class="summary-button invariant-button" type="button" disabled>
+            <strong>Cohomology Basis</strong>
+            <span id="cohomologyBasisCount">Victory required</span>
+          </button>
+          <button id="openCartanButton" class="summary-button invariant-button" type="button" disabled>
+            <strong>Cartan Data</strong>
+            <span id="cartanStatus">Victory required</span>
+          </button>
+        </div>
+
+        <section class="panel-block" hidden aria-hidden="true">
+          <div class="panel-head">
+            <h2>Auto Complete</h2>
+            <div class="section-actions">
+              <label class="small-field" title="Maximum Massey-product arity that auto-complete may search or attach.">
+                <span>Max arity</span>
+                <input id="maxArityInput" class="small-input" type="number" min="3" max="20" value="8">
+              </label>
+              <button class="collapse-toggle" type="button" title="Collapse section" aria-expanded="true">-</button>
+            </div>
+          </div>
+          <p class="panel-note">Max arity bounds the search. Plan previews the next auto-complete move without attaching cells; Apply performs it.</p>
+          <select id="autocompleteChoice"></select>
+          <div class="search-actions autocomplete-actions">
+            <button id="planAutocomplete" type="button" title="Preview the next autocomplete move and any class choice it needs.">Plan</button>
+            <button id="applyAutocomplete" type="button" title="Apply autocomplete using the selected class choice or the current next class.">Apply</button>
+          </div>
+          <div id="autocompletePlan" class="plan-box"></div>
+        </section>
+
+        <section class="panel-block messages">
+          <div class="panel-head">
+            <h2>Messages</h2>
+            <button class="collapse-toggle" type="button" title="Collapse section" aria-expanded="true">-</button>
+          </div>
+          <div id="messageList" class="message-list"></div>
+        </section>
+      </aside>
+    </main>
+
+    <dialog id="vertexDialog" class="game-dialog" aria-labelledby="vertexDialogTitle">
+      <div class="game-dialog-panel">
+        <header class="dialog-header">
+          <div>
+            <h2 id="vertexDialogTitle">Add vertices</h2>
+            <p>Add one vertex or a comma-separated list.</p>
+          </div>
+          <button class="dialog-close" type="button" data-close-dialog="vertexDialog" aria-label="Close vertex editor">×</button>
+        </header>
+        <form id="vertexForm" class="dialog-form">
+          <label class="field-label">
+            <span>Vertex names</span>
+            <input id="vertexInput" autocomplete="off" placeholder="1, 2, 3" autofocus>
+          </label>
+          <div class="dialog-actions">
+            <button type="button" data-close-dialog="vertexDialog">Cancel</button>
+            <button class="resolve-action" type="submit" title="Add the comma-separated vertices to the quiver.">Add vertices</button>
+          </div>
+        </form>
+      </div>
+    </dialog>
+
+    <dialog id="generatorDialog" class="game-dialog" aria-labelledby="generatorDialogTitle">
+      <div class="game-dialog-panel">
+        <header class="dialog-header">
+          <div>
+            <h2 id="generatorDialogTitle">Add generator</h2>
+            <p>Choose the source and target in the current quiver.</p>
+          </div>
+          <button class="dialog-close" type="button" data-close-dialog="generatorDialog" aria-label="Close generator editor">×</button>
+        </header>
+        <form id="arrowForm" class="arrow-form dialog-form">
+          <label class="field-label">
+            <span>Arrow name</span>
+            <input id="arrowName" autocomplete="off" placeholder="x" autofocus>
+          </label>
+          <label class="field-label">
+            <span>Source</span>
+            <select id="arrowSource"></select>
+          </label>
+          <label class="field-label">
+            <span>Target</span>
+            <select id="arrowTarget"></select>
+          </label>
+          <label class="field-label">
+            <span>Grading</span>
+            <input id="arrowGrading" autocomplete="off" inputmode="numeric" placeholder="optional">
+          </label>
+          <div class="dialog-actions">
+            <button type="button" data-close-dialog="generatorDialog">Cancel</button>
+            <button class="resolve-action" type="submit" title="Add this arrow as a generator with the selected source and target.">Add generator</button>
+          </div>
+        </form>
+      </div>
+    </dialog>
+
+    <dialog id="attachmentsDialog" class="game-dialog detail-dialog" aria-labelledby="attachmentsDialogTitle">
+      <div class="game-dialog-panel">
+        <header class="dialog-header">
+          <div>
+            <h2 id="attachmentsDialogTitle">Attached Cells</h2>
+            <p>The cells currently attached to the monomial DG algebra.</p>
+          </div>
+          <button class="dialog-close" type="button" data-close-dialog="attachmentsDialog" aria-label="Close attached cells">×</button>
+        </header>
+        <div id="attachmentList" class="timeline"></div>
+      </div>
+    </dialog>
+
+    <dialog id="runResultDialog" class="game-dialog detail-dialog" aria-labelledby="runResultDialogTitle">
+      <div class="game-dialog-panel">
+        <header class="dialog-header">
+          <div>
+            <h2 id="runResultDialogTitle">Run Result</h2>
+            <p>The most recent obstruction search.</p>
+          </div>
+          <button class="dialog-close" type="button" data-close-dialog="runResultDialog" aria-label="Close run result">×</button>
+        </header>
+        <div id="runDetails" class="run-details"></div>
+      </div>
+    </dialog>
+
+    <dialog id="cohomologyBasisDialog" class="game-dialog detail-dialog" aria-labelledby="cohomologyBasisDialogTitle">
+      <div class="game-dialog-panel">
+        <header class="dialog-header">
+          <div>
+            <h2 id="cohomologyBasisDialogTitle">Cohomology Basis</h2>
+            <p id="cohomologyBasisSummary">Finite basis from the exact victory certificate.</p>
+          </div>
+          <button class="dialog-close" type="button" data-close-dialog="cohomologyBasisDialog" aria-label="Close cohomology basis">×</button>
+        </header>
+        <div id="cohomologyBasisList" class="cohomology-basis-grid"></div>
+        <p id="cohomologyGradingNote" class="derived-note"></p>
+      </div>
+    </dialog>
+
+    <dialog id="cartanDialog" class="game-dialog detail-dialog" aria-labelledby="cartanDialogTitle">
+      <div class="game-dialog-panel">
+        <header class="dialog-header">
+          <div>
+            <h2 id="cartanDialogTitle">Cartan Data</h2>
+            <p>Euler-characteristic matrices computed independently from the cohomology basis and the cellular generators.</p>
+          </div>
+          <button class="dialog-close" type="button" data-close-dialog="cartanDialog" aria-label="Close Cartan data">×</button>
+        </header>
+        <div id="cartanDetails" class="cartan-details"></div>
+        <p id="cartanGradingNote" class="derived-note"></p>
+      </div>
+    </dialog>
+
+    <dialog id="loadErrorDialog" class="load-error-dialog" aria-labelledby="loadErrorTitle">
+      <form class="load-error-panel" method="dialog">
+        <h2 id="loadErrorTitle">Could not load quiver</h2>
+        <p id="loadErrorSummary"></p>
+        <pre id="loadErrorDetails"></pre>
+        <div class="dialog-actions">
+          <button type="submit" value="ok">OK</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script>
+      window.MathJax = {
+        startup: {
+          typeset: false,
+          ready() {
+            MathJax.startup.defaultReady();
+            if (window.renderPendingAinfMath) {
+              window.renderPendingAinfMath();
+            }
+          }
+        },
+        options: {
+          enableMenu: false
+        }
+      };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <script src="app.js?v=20260915-cohomology" defer></script>
+  </body>
+</html>

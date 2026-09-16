@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DG quiver with relations</title>
+    <link rel="stylesheet" href="app.css?v=20260713-configuration-polygons">
+    <link rel="stylesheet" href="dg-quiver.css">
+  </head>
+  <body>
+    <main class="app-shell dg-shell">
+      <section class="stage-pane" aria-label="DG quiver quotient">
+        <header class="topbar dg-topbar">
+          <div class="topbar-title dg-title">
+            <div class="title-line">
+              <h1>DG quiver with relations</h1>
+              <span id="dgStatus" class="app-status standby">(Standby)</span>
+            </div>
+            <p id="dgMeta">No quotient analyzed</p>
+          </div>
+          <div class="section-actions">
+            <a class="small-section-button note-link" href="/" title="Return to the A infinity game.">A∞ game</a>
+          </div>
+        </header>
+
+        <div id="serverNotice" class="server-notice" hidden>
+          <strong>This page needs the local Python game server.</strong>
+          <span>From the project folder, run <code>python3 ainf_game_ui.py</code>, then open <code>http://127.0.0.1:8000/dg-quiver.html</code>.</span>
+        </div>
+
+        <section class="stage-section graph-section">
+          <div class="section-head">
+            <h2>Quiver</h2>
+            <div class="section-actions">
+              <span id="graphCount"></span>
+              <button class="collapse-toggle" type="button" title="Collapse section" aria-expanded="true">-</button>
+            </div>
+          </div>
+          <svg id="dgGraph" viewBox="0 0 920 300" role="img" aria-label="DG quiver graph"></svg>
+        </section>
+
+        <section class="stage-section">
+          <div class="section-head">
+            <h2>Quotient Basis</h2>
+            <div class="section-actions">
+              <span id="basisCount"></span>
+              <button class="collapse-toggle" type="button" title="Collapse section" aria-expanded="true">-</button>
+            </div>
+          </div>
+          <div id="basisList" class="dg-list"></div>
+        </section>
+
+        <section class="stage-section">
+          <div class="section-head">
+            <h2>Oriented Relations</h2>
+            <div class="section-actions">
+              <span id="relationCount"></span>
+              <button class="collapse-toggle" type="button" title="Collapse section" aria-expanded="true">-</button>
+            </div>
+          </div>
+          <div id="relationList" class="dg-list"></div>
+        </section>
+
+        <section class="stage-section">
+          <div class="section-head">
+            <h2>DG Checks</h2>
+            <div class="section-actions">
+              <span id="checkCount"></span>
+              <button class="collapse-toggle" type="button" title="Collapse section" aria-expanded="true">-</button>
+            </div>
+          </div>
+          <div id="checkList" class="dg-list"></div>
+        </section>
+
+        <section class="stage-section">
+          <div class="section-head">
+            <h2>Sample Normal Form</h2>
+            <div class="section-actions">
+              <span id="sampleStatus"></span>
+              <button class="collapse-toggle" type="button" title="Collapse section" aria-expanded="true">-</button>
+            </div>
+          </div>
+          <div id="sampleResult" class="dg-list"></div>
+        </section>
+
+        <section class="stage-section">
+          <div class="section-head">
+            <h2>Right Module</h2>
+            <div class="section-actions">
+              <span id="moduleStatus"></span>
+              <button class="collapse-toggle" type="button" title="Collapse section" aria-expanded="true">-</button>
+            </div>
+          </div>
+          <div id="moduleResult" class="dg-list"></div>
+        </section>
+      </section>
+
+      <aside class="operation-pane" aria-label="DG operations">
+        <section class="panel-block">
+          <div class="panel-head">
+            <h2>Quiver Input</h2>
+            <div class="section-actions">
+              <button id="exampleButton" type="button" title="Load a small quotient example.">Example</button>
+              <button id="undoButton" type="button" title="Undo the last DG quiver edit.">Undo</button>
+              <button id="clearButton" type="button" title="Clear the DG quiver form.">Clear</button>
+              <button class="collapse-toggle" type="button" title="Collapse section" aria-expanded="true">-</button>
+            </div>
+          </div>
+          <form id="vertexForm" class="form-row">
+            <input id="vertexInput" autocomplete="off" placeholder="Vertices: 1,2,3">
+            <button type="submit" title="Add the comma-separated vertices to the quiver.">Add</button>
+          </form>
+          <form id="arrowForm" class="arrow-form">
+            <label class="field-label">
+              <span>Arrow name</span>
+              <input id="arrowName" autocomplete="off" placeholder="x">
+            </label>
+            <label class="field-label">
+              <span>Source</span>
+              <select id="arrowSource"></select>
+            </label>
+            <label class="field-label">
+              <span>Target</span>
+              <select id="arrowTarget"></select>
+            </label>
+            <label class="field-label">
+              <span>Degree</span>
+              <input id="arrowDegree" autocomplete="off" inputmode="numeric" placeholder="optional">
+            </label>
+            <label class="field-label arrow-differential-field">
+              <span>d</span>
+              <input id="arrowDifferential" autocomplete="off" placeholder="optional">
+            </label>
+            <button type="submit" title="Add this arrow as a generator with the selected source and target.">Add</button>
+          </form>
+          <div id="arrowList" class="dg-list dg-compact-list"></div>
+        </section>
+
+        <section class="panel-block">
+          <div class="panel-head">
+            <h2>Monomial Keyboard</h2>
+            <div class="section-actions">
+              <button id="clearBuilder" title="Clear the current monomial selection." type="button">Clear</button>
+              <button id="clearPolynomialButton" title="Clear the current polynomial box." type="button">Clear polynomial</button>
+              <button class="collapse-toggle" type="button" title="Collapse section" aria-expanded="true">-</button>
+            </div>
+          </div>
+          <div id="generatorList" class="button-grid"></div>
+          <div class="monomial-box-wrap">
+            <input id="builderCoeff" class="coeff-input" autocomplete="off" value="1" aria-label="Coefficient for the selected monomial" title="Coefficient multiplying the selected monomial.">
+            <div id="builderChips" class="chip-box empty" tabindex="0" role="button" aria-label="Selected monomial" title="Click here, then press Backspace to delete the rightmost factor.">Empty</div>
+            <button id="builderBackspace" class="builder-backspace" type="button" title="Delete the rightmost factor from the selected monomial.">&#x232B;</button>
+          </div>
+          <label class="field-label">
+            <span>Current polynomial</span>
+            <textarea id="currentPolynomialInput" rows="3" spellcheck="false"></textarea>
+          </label>
+          <div class="builder-actions dg-builder-actions">
+            <button id="insertPolynomialButton" type="button" title="Insert the selected monomial into the current polynomial.">Insert term</button>
+            <button id="attachCellButton" class="resolve-action" type="button" title="Add an arrow whose differential is the current polynomial.">Attach cell</button>
+            <button id="addRelationButton" type="button" title="Add the current polynomial to the ideal generators.">Add to ideal</button>
+            <button id="useSampleButton" type="button" title="Use the current polynomial as the sample expression.">Use sample</button>
+          </div>
+        </section>
+
+        <section class="panel-block">
+          <div class="panel-head">
+            <h2>Relations</h2>
+            <div class="section-actions">
+              <button id="clearRelationsButton" type="button" title="Clear the ideal generators box.">Clear relations</button>
+              <label class="small-field" title="Maximum path length shown in the quotient basis.">
+                <span>Basis length</span>
+                <input id="maxLengthInput" class="small-input" type="number" min="0" max="10" value="5">
+              </label>
+              <button class="collapse-toggle" type="button" title="Collapse section" aria-expanded="true">-</button>
+            </div>
+          </div>
+          <label class="field-label">
+            <span>Ideal generators</span>
+            <textarea id="relationsInput" rows="7" spellcheck="false">a*a</textarea>
+          </label>
+          <label class="field-label">
+            <span>Sample expression</span>
+            <textarea id="sampleInput" rows="3" spellcheck="false">b + 1/2*a*a</textarea>
+          </label>
+          <button id="analyzeButton" class="wide-action resolve-action" type="button" title="Analyze the DG quotient.">Analyze</button>
+        </section>
+
+        <section class="panel-block">
+          <div class="panel-head">
+            <h2>Right Module Presentation</h2>
+            <button class="collapse-toggle" type="button" title="Collapse section" aria-expanded="true">-</button>
+          </div>
+          <div id="projectiveList" class="button-grid projective-grid"></div>
+          <form id="moduleGeneratorForm" class="module-generator-form">
+            <label class="field-label">
+              <span>Generator</span>
+              <input id="moduleGeneratorName" autocomplete="off" placeholder="m">
+            </label>
+            <label class="field-label">
+              <span>Vertex</span>
+              <select id="moduleGeneratorVertex"></select>
+            </label>
+            <label class="field-label">
+              <span>Degree</span>
+              <input id="moduleGeneratorDegree" autocomplete="off" inputmode="numeric" placeholder="optional">
+            </label>
+            <button type="submit" title="Add a free right module summand e_v A.">Add</button>
+          </form>
+          <div id="moduleGeneratorList" class="dg-list dg-compact-list"></div>
+          <form id="moduleRowForm" class="module-row-form">
+            <label class="field-label">
+              <span>Row name</span>
+              <input id="moduleRowName" autocomplete="off" placeholder="r">
+            </label>
+            <label class="field-label">
+              <span>Row vertex</span>
+              <select id="moduleRowVertex"></select>
+            </label>
+            <label class="field-label module-row-entries-field">
+              <span>Matrix entries</span>
+              <textarea id="moduleRowEntries" rows="3" spellcheck="false" placeholder="one entry for each module generator, separated by commas"></textarea>
+            </label>
+            <button type="submit" title="Add this matrix row to F1 -> F0.">Add row</button>
+          </form>
+          <div id="moduleRowList" class="dg-list dg-compact-list"></div>
+        </section>
+
+        <section class="panel-block messages">
+          <div class="panel-head">
+            <h2>Messages</h2>
+            <button class="collapse-toggle" type="button" title="Collapse section" aria-expanded="true">-</button>
+          </div>
+          <div id="messageList" class="message-list"></div>
+        </section>
+      </aside>
+    </main>
+    <dialog id="dgIdealDialog" class="dg-dialog">
+      <form method="dialog">
+        <h2>Ideal is not DG</h2>
+        <div id="dgIdealDialogBody" class="dg-dialog-body"></div>
+        <div class="dg-dialog-actions">
+          <button id="dgIdealEditButton" type="submit" value="edit">Keep editing</button>
+          <button id="dgIdealExternalButton" class="resolve-action" type="submit" value="external">Use external DG ideal</button>
+        </div>
+      </form>
+    </dialog>
+    <script src="dg-quiver.js" defer></script>
+  </body>
+</html>
